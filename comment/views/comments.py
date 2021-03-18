@@ -2,6 +2,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.contrib import messages
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMessage
+from django.urls import reverse
 
 from comment.models import Comment
 from comment.forms import CommentForm
@@ -41,6 +44,43 @@ class CreateComment(CanCreateMixin, CommentCreateMixin):
         )
         self.comment = self.perform_create(temp_comment, self.request)
         self.data = render_to_string(self.get_template_names(), self.get_context_data(), request=self.request)
+        #comment send email
+        current_site = get_current_site(self.request)
+        article=self.comment.content_object
+        author_email=article.author.email
+        user_email=self.comment.user.email
+        if author_email == user_email:
+            user_email =False
+            author_email=False
+        parent_email=False
+        if self.comment.parent:
+            parent_email = self.comment.parent.user.email
+            if parent_email in [author_email,user_email]:
+                parent_email=False
+        if author_email:
+            email = EmailMessage(
+                    "دیدگاه جدید",
+                     "دیدگاه جدیدی برای مقاله «{}» که شما نویسنده آن هستید ،ارسال شد:\n {}{}".format(article,current_site,reverse('blog:detail', kwargs={'slug':article.slug})), 
+                     to=[author_email]
+            )
+            email.send()
+
+        if user_email:
+            email = EmailMessage(
+                    "دیدگاه ثبت شد",
+                    "دیدگاه شما ثبت شد و به زودی به آن پاسخ می دهیم.", 
+                        to=[user_email]
+            )
+            email.send()
+
+        if author_email:
+            email = EmailMessage(
+                    "پاسخ به دیدگاه شما",
+                     "پاسخی به دیدگاه شما در مقاله «{}» ارسال شده است ،برای مشاهده کلیک کنید:\n {}{}".format(article,current_site,reverse('blog:detail', kwargs={'slug':article.slug})), 
+                     to=[author_email]
+            )
+            email.send()
+        
         return UTF8JsonResponse(self.json())
 
     def form_invalid(self, form):
