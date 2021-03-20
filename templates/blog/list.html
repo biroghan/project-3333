@@ -1,5 +1,8 @@
 {% extends 'blog/base.html' %}
 {% load static %}
+{% load ratings %}
+
+
 {% block main %}
   <!-- Page Header -->
   <header class="masthead" style="background-image: url({% static 'blog/img/home-bg.jpg' %})">
@@ -29,6 +32,7 @@
               {% if article.is_special %}
                 <span class="badge badge-danger" style="font-size: 12px;" >ویژه</span>
               {% endif %}
+            <div >{% ratings article %}</div>
             </h2>
             <h3 class="post-subtitle">
               {{article.description|striptags|truncatewords:30}}
@@ -40,7 +44,6 @@
             {% for cat in article.category.active %}
               <a href="{% url 'blog:category' cat.slug %}">#{{cat.title}}</a>
             {% endfor %}
-        </div>
         <hr>
       {% endfor %}
         <!-- Pager -->

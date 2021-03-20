@@ -3,7 +3,7 @@ from django.utils.translation import ngettext
 from .models import Article,Category
 
 #My actions
-admin.site.disable_action('delete_selected')
+# admin.site.disable_action('delete_selected')
 
 def make_published(modeladmin, request, queryset):
     updated = queryset.update(status='p')

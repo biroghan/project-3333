@@ -1,5 +1,6 @@
 {% extends 'blog/base.html' %}
-{% load comment_tags %} 
+{% load comment_tags %}
+{% load ratings %} 
 
 {% block title %} | {{object.title}}{% endblock %}
 {% block main %}
@@ -15,10 +16,24 @@
               <span class="badge badge-danger" style="font-size: 12px;" >ویژه</span>
             {% endif %}
             <time>{{object.jpublish}}</time>
+            <div >{% ratings object %}</div>
+            {% if not user.is_authenticated %}
+            <div class="col-sm-12" text-center >
+              <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="برای رای دادن وارد شوید">
+                
+                    <div>برای رای دادن وارد شوید</div>
+              </button>
+            </div>
+            {% endif %}
           </div>
         </div>
       </div>
     </div>
+    <script>
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
+    </script>
   </header>
 
   <!-- Post Content -->
