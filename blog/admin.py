@@ -1,6 +1,6 @@
 from django.contrib import admin, messages
 from django.utils.translation import ngettext
-from .models import Article,Category
+from .models import Article,Category,IPAddress
 
 #My actions
 # admin.site.disable_action('delete_selected')
@@ -41,3 +41,4 @@ class ArticleAdmin(admin.ModelAdmin):
 
     
 admin.site.register(Article,ArticleAdmin)
+admin.site.register(IPAddress)

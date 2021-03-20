@@ -44,6 +44,8 @@
             {% for cat in article.category.active %}
               <a href="{% url 'blog:category' cat.slug %}">#{{cat.title}}</a>
             {% endfor %}
+            <div>بازدید ها:{{ article.hits.count }}</div>
+
         <hr>
       {% endfor %}
         <!-- Pager -->
