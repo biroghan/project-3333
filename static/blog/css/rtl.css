@@ -31,3 +31,13 @@ h3.post-subtitle {
 }
 
 
+.popular_articles {
+    width: 250px;
+    border-radius: 5px;
+    padding: 15px;
+    border-bottom: 1px solid #dddd;
+    position: absolute;
+    top: 0px;
+    left: -250px;
+    box-shadow: 5px 5px #565353ee;
+}

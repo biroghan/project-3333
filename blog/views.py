@@ -4,8 +4,6 @@ from django.core.paginator import Paginator
 from django.shortcuts import render,get_object_or_404
 from .models import Article,Category
 from account.mixins import AuthorAccessMixin
-from django.db.models import Count,Q
-from datetime import datetime ,timedelta
 # Create your views here.
 
 # def home(request,page=1):
@@ -21,8 +19,7 @@ class ArticleList(ListView):
     # model=Article
     # template_name='blog/home.html'
     # context_object_name='articles'
-    last_month= datetime.today()  - timedelta(days=30)
-    queryset=Article.objects.published().annotate(count=Count('hits',filter=Q(articlehit__created__gt=last_month))).order_by('-count','publish')
+    queryset=Article.objects.published()
     paginate_by=3
 
 

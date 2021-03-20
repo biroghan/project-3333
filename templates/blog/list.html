@@ -1,6 +1,7 @@
 {% extends 'blog/base.html' %}
 {% load static %}
 {% load ratings %}
+{% load base_tags %}
 
 
 {% block main %}
@@ -22,6 +23,7 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
+        {% popular_articles %}
         {% block header %}
         {% endblock %}
       {% for article in object_list %}
