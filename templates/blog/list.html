@@ -51,6 +51,8 @@
             <div>بازدید ها:{{ article.hits.count }}</div>
 
         <hr>
+      {% empty %}
+            <p> محتوایی برای نمایش وجود ندارد. </p>
       {% endfor %}
         <!-- Pager -->
         <div class="clearfix Pager-botton">
